@@ -214,8 +214,10 @@ def create_objects_array(fname, source):  # noqa: C901
                     cur_func = _nest_function(cur_obj, func_name, lineno, async_f=True)
                     cur_obj.endno = lineno - new_lines
                 else:
-                    tree.append(AsyncFunction(func_name, fname, lineno))
-                stack.append((cur_func, thisindent))
+                    cur_func = AsyncFunction(func_name, fname, lineno)
+                    tree.append(cur_func)
+                if cur_func:
+                    stack.append((cur_func, thisindent))
             elif token == "def":
                 new_lines = 0
                 lineno, thisindent = start
