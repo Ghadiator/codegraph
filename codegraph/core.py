@@ -333,7 +333,7 @@ def populate_free_nodes(code_objects: Dict, dependencies: Dict, imports: Dict, m
                         base_found = True
                     else:
                         # Search in imports for this module
-                        for imp in imports.get(path, []):
+                        for imp in (imports.get(path) or []):
                             # Import could be like "dialects.HQL" or "simple_ddl_parser.dialects.HQL"
                             if imp.endswith("." + base_class) or imp.endswith("." + base_class.split(" as ")[0]):
                                 # Found the import, extract module name

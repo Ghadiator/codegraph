@@ -139,7 +139,7 @@ def convert_to_d3_format(modules_entities: Dict, entity_metadata: Dict = None) -
     entity_to_module: Dict[str, str] = {}
     for module_path, entities in modules_entities.items():
         module_name = os.path.basename(module_path)
-        module_metadata = entity_metadata.get(module_path, {})
+        module_metadata = (entity_metadata.get(module_path) or {})
 
         # Compute relative path from common root
         if common_root:
@@ -170,7 +170,7 @@ def convert_to_d3_format(modules_entities: Dict, entity_metadata: Dict = None) -
             entity_to_module[f"{module_name.replace('.py', '')}.{entity_name}"] = module_name
 
             # Get entity metadata
-            ent_meta = module_metadata.get(entity_name, {})
+            ent_meta = (module_metadata.get(entity_name) or {})
             lines = ent_meta.get("lines", 0)
             entity_type = ent_meta.get("entity_type", "function")
 

@@ -1,4 +1,5 @@
 # 'cut of' code from pythons pyclrb with some additionals
+import logging
 import io
 import tokenize
 from token import DEDENT, NAME, NEWLINE, NL
@@ -290,7 +291,12 @@ def create_objects_array(fname, source):  # noqa: C901
                 stack.append((cur_class, thisindent))
 
     except StopIteration:
-        pass
+        # Normal end of the token stream — readline() is exhausted. Logged at
+        # debug rather than swallowed silently so a truncated parse is still
+        # visible, without depending on any host application's logger.
+        logging.getLogger(__name__).debug(
+            "create_objects_array: token stream exhausted for %s", fname
+        )
 
     f.close()
     if imports:
